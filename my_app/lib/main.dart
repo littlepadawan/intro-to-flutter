@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,10 +15,10 @@ class MyApp extends StatelessWidget {
           title: const Text('Hello from Flutter'),
           leading: const Icon(Icons.flutter_dash),
         ),
-        body: const Center(
+        body: Center(
           child: Text(
-            'Hello Flutter!',
-            textDirection: TextDirection.ltr,
+            'May the Force be with you',
+            style: GoogleFonts.acme(fontSize: 32),
           ),
         ),
       ),
