@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,10 +33,21 @@ class MeCard extends StatelessWidget {
         title: const Text('Personal Card'),
       ),
       body: ListView(
-        // padding: ,
+        padding: const EdgeInsets.all(16),
         children: [
-          Image.asset('images/portrait.jpg'),
-          Text('Ida Hellqvist'),
+          CircleAvatar(
+            backgroundImage: const AssetImage('images/portrait.jpg'),
+            radius: 100,
+            onBackgroundImageError: (error, stacktrace) {
+              debugPrint('Issue loading image: $error, $stacktrace');
+            },
+          ),
+          Center(
+            child: Text(
+              'Ida Hellqvist',
+              style: GoogleFonts.zeyada(fontSize: 40),
+            ),
+          ),
           PersonalCard(),
         ],
       ),
@@ -50,6 +62,8 @@ class PersonalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Card(
+          child: Padding(
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -61,7 +75,7 @@ class PersonalCard extends StatelessWidget {
             cardRow('images/icons8-github-48.png', 'blablabla'),
           ],
         ),
-      ),
+      )),
     );
   }
 }
@@ -71,12 +85,14 @@ Widget cardRow(String iconPath, String details) {
     mainAxisSize: MainAxisSize.min, // Height of rows
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      Expanded(
-        child: Image.asset(iconPath),
-      ),
-      Expanded(
-        child: Text(details),
-      )
+      Image.asset(iconPath),
+      Text(details),
+      // Expanded(
+      //   child: Image.asset(iconPath),
+      // ),
+      // Expanded(
+      //   child: Text(details),
+      // )
     ],
   );
 }
