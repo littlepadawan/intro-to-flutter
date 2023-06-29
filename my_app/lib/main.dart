@@ -35,24 +35,40 @@ class MeCard extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          CircleAvatar(
-            backgroundImage: const AssetImage('images/portrait.jpg'),
-            radius: 100,
-            onBackgroundImageError: (error, stacktrace) {
-              debugPrint('Issue loading image: $error, $stacktrace');
-            },
+          const Padding(
+            padding: EdgeInsets.only(top: 60),
+            child: Portrait(),
           ),
           Center(
-            child: Text(
-              'Ida Hellqvist',
-              style: GoogleFonts.zeyada(fontSize: 40),
-            ),
+            child: name('Ida Hellqvist'),
           ),
           PersonalCard(),
         ],
       ),
     );
   }
+}
+
+class Portrait extends StatelessWidget {
+  const Portrait({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      backgroundImage: const AssetImage('images/portrait.jpg'),
+      radius: 100,
+      onBackgroundImageError: (error, stacktrace) {
+        debugPrint('Issue loading image: $error, $stacktrace');
+      },
+    );
+  }
+}
+
+Widget name(String name) {
+  return Text(
+    name,
+    style: GoogleFonts.zeyada(fontSize: 40),
+  );
 }
 
 class PersonalCard extends StatelessWidget {
@@ -62,28 +78,35 @@ class PersonalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Card(
-          child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'My Role',
-            ),
-            cardRow(
-                Icons.mail, Colors.pink, 'Email', 'ida.s.hellqvist@gmail.com'),
-            cardRow(Icons.phone, Colors.blue, 'Phone number', '070-123 45 67'),
-            cardRow(Icons.link, Colors.green, 'Link to web page', 'blablabla'),
-          ],
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(bottom: 10),
+                child: Text(
+                  'Computer Science student',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+              ),
+              cardItem(Icons.mail, Colors.pink, 'Email',
+                  'ida.s.hellqvist@gmail.com'),
+              cardItem(
+                  Icons.phone, Colors.blue, 'Phone number', '070-123 45 67'),
+              cardItem(
+                  Icons.link, Colors.green, 'Link to web page', 'blablabla'),
+            ],
+          ),
         ),
-      )),
+      ),
     );
   }
 }
 
-Widget cardRow(IconData icon, Color color, String label, String details) {
+Widget cardItem(IconData icon, Color color, String label, String details) {
   return ListTile(
-    contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+    contentPadding: const EdgeInsets.symmetric(horizontal: 0),
     horizontalTitleGap: -2,
     visualDensity: const VisualDensity(vertical: -4),
     leading: Icon(
