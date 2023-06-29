@@ -70,9 +70,10 @@ class PersonalCard extends StatelessWidget {
             Text(
               'My Role',
             ),
-            cardRow('images/icons8-email-40.png', 'ida.s.hellqvist@gmail.com'),
-            cardRow('images/icons8-phone-40.png', '0708-53 24 35'),
-            cardRow('images/icons8-github-48.png', 'blablabla'),
+            cardRow(
+                Icons.mail, Colors.pink, 'Email', 'ida.s.hellqvist@gmail.com'),
+            cardRow(Icons.phone, Colors.blue, 'Phone number', '070-123 45 67'),
+            cardRow(Icons.link, Colors.green, 'Link to web page', 'blablabla'),
           ],
         ),
       )),
@@ -80,19 +81,16 @@ class PersonalCard extends StatelessWidget {
   }
 }
 
-Widget cardRow(String iconPath, String details) {
-  return Row(
-    mainAxisSize: MainAxisSize.min, // Height of rows
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: [
-      Image.asset(iconPath),
-      Text(details),
-      // Expanded(
-      //   child: Image.asset(iconPath),
-      // ),
-      // Expanded(
-      //   child: Text(details),
-      // )
-    ],
+Widget cardRow(IconData icon, Color color, String label, String details) {
+  return ListTile(
+    contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+    horizontalTitleGap: -2,
+    visualDensity: const VisualDensity(vertical: -4),
+    leading: Icon(
+      icon,
+      color: color,
+      semanticLabel: label,
+    ),
+    title: Text(details),
   );
 }
