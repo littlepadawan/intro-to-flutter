@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'The Me Card',
       theme: ThemeData(
         // The theme of the application.
-        primarySwatch: Colors.lightBlue,
+        primarySwatch: Colors.blueGrey,
         // useMaterial3: true,
       ),
       home: const MeCard(),
@@ -36,13 +36,13 @@ class MeCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         children: [
           const Padding(
-            padding: EdgeInsets.only(top: 60),
+            padding: EdgeInsets.only(top: 60, bottom: 15),
             child: Portrait(),
           ),
           Center(
             child: name('Ida Hellqvist'),
           ),
-          PersonalCard(),
+          const PersonalCard(),
         ],
       ),
     );
@@ -67,7 +67,7 @@ class Portrait extends StatelessWidget {
 Widget name(String name) {
   return Text(
     name,
-    style: GoogleFonts.zeyada(fontSize: 40),
+    style: GoogleFonts.zeyada(fontSize: 45),
   );
 }
 
@@ -78,8 +78,9 @@ class PersonalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Card(
+        color: Color.fromARGB(224, 223, 234, 240),
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -90,12 +91,12 @@ class PersonalCard extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
-              cardItem(Icons.mail, Colors.pink, 'Email',
+              cardItem(Icons.mail, Colors.blueGrey, 'Email',
                   'ida.s.hellqvist@gmail.com'),
-              cardItem(
-                  Icons.phone, Colors.blue, 'Phone number', '070-123 45 67'),
-              cardItem(
-                  Icons.link, Colors.green, 'Link to web page', 'blablabla'),
+              cardItem(Icons.link, Colors.blueGrey, 'Link to GitHub',
+                  'https://github.com/littlepadawan'),
+              cardItem(Icons.pin_drop_sharp, Colors.blueGrey, 'Place',
+                  'Gotland/Uppsala, Sweden'),
             ],
           ),
         ),
@@ -114,6 +115,9 @@ Widget cardItem(IconData icon, Color color, String label, String details) {
       color: color,
       semanticLabel: label,
     ),
-    title: Text(details),
+    title: Text(
+      details,
+      style: const TextStyle(fontSize: 14),
+    ),
   );
 }
