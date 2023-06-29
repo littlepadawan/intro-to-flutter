@@ -13,4 +13,4 @@ A static Flutter application that shows some information about me. Requirements:
 Flutter and Android Studio. Navigate to root of project (*my_app*) and run `flutter run`.
 
 ## Preview
-![Preview of the personal card](/assets/images/preview.png)
+<img src="/my_app/images/preview.png" alt="Preview of the app" width="200"/>
