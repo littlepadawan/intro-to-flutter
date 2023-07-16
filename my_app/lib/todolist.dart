@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ToDoList extends StatefulWidget {
+  const ToDoList({super.key});
+
   @override
   State<ToDoList> createState() => _ToDoListState();
 }
@@ -19,32 +21,14 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
-  Future<void> _displayDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Add a new todo item'),
-          content: TextField(
-            controller: _textFieldController,
-            decoration: const InputDecoration(hintText: 'Type your new todo'),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Add'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                _addToDoItem(_textFieldController.text);
-              },
-            ),
-          ],
-        );
-      },
-    );
+  void _removeToDoItem(ToDo item) {
+    setState(() {
+      _textFieldController.text = item.name;
+      _todos.remove(item);
+    });
   }
 
-  void _handleToDoChange(ToDo todo) {
+  void _toggleCheck(ToDo todo) {
     setState(() {
       todo.checked = !todo.checked;
     });
@@ -53,24 +37,43 @@ class _ToDoListState extends State<ToDoList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text('ToDo list'),
       ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        children: _todos.map<Widget>((ToDo todo) {
-          return ToDoItem(
-            todo: todo,
-            onToDoChanged: _handleToDoChange,
-          );
-        }).toList(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await _displayDialog();
-        },
-        tooltip: 'Add Item',
-        child: Icon(Icons.add),
+      body: Column(
+        children: [
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: TextField(
+                  controller: _textFieldController,
+                  decoration:
+                      const InputDecoration(hintText: 'Type your new todo'),
+                ),
+              ),
+              FloatingActionButton(
+                onPressed: () async {
+                  _addToDoItem(_textFieldController.text);
+                },
+                tooltip: 'Add Item',
+                child: Icon(Icons.add),
+              ),
+            ],
+          ),
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              children: _todos.map<Widget>((ToDo todo) {
+                return ToDoItem(
+                  todo: todo,
+                  onCheckBoxTap: _toggleCheck,
+                  onItemTap: _removeToDoItem,
+                );
+              }).toList(),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -83,13 +86,15 @@ class ToDo {
 }
 
 class ToDoItem extends StatelessWidget {
-  ToDoItem({
-    required this.todo,
-    required this.onToDoChanged,
-  }) : super(key: ObjectKey(todo));
+  ToDoItem(
+      {required this.todo,
+      required this.onCheckBoxTap,
+      required this.onItemTap})
+      : super(key: ObjectKey(todo));
 
   final ToDo todo;
-  final onToDoChanged;
+  final onCheckBoxTap;
+  final onItemTap;
 
   TextStyle? _getTextStyle(bool checked) {
     if (!checked) return null;
@@ -103,9 +108,13 @@ class ToDoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () => onToDoChanged(todo),
-      leading: CircleAvatar(
-        child: Text(todo.name[0]),
+      // onTap: () => onToDoChanged(todo),
+      onTap: () => {onItemTap(todo)},
+      leading: IconButton(
+        icon: Icon(todo.checked
+            ? Icons.check_box
+            : Icons.check_box_outline_blank_outlined),
+        onPressed: () => {onCheckBoxTap(todo)},
       ),
       title: Text(
         todo.name,
