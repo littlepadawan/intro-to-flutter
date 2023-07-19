@@ -8,23 +8,22 @@ class ToDoList extends StatefulWidget {
 }
 
 class _ToDoListState extends State<ToDoList> {
-  final TextEditingController _textFieldController =
-      TextEditingController(); // TODO: change name? Change to resemble lecture?
-  final List<ToDo> _todos = <ToDo>[];
+  final TextEditingController _textField = TextEditingController();
+  final List<ToDo> _itemList = <ToDo>[];
 
-  void _addToDoItem(String name) {
+  void _addItem(String name) {
     setState(() {
-      _todos.add(
+      _itemList.add(
         ToDo(name: name, checked: false),
       );
-      _textFieldController.clear();
+      _textField.clear();
     });
   }
 
-  void _removeToDoItem(ToDo item) {
+  void _removeItem(ToDo item) {
     setState(() {
-      _textFieldController.text = item.name;
-      _todos.remove(item);
+      _textField.text = item.name;
+      _itemList.remove(item);
     });
   }
 
@@ -41,39 +40,42 @@ class _ToDoListState extends State<ToDoList> {
       appBar: AppBar(
         title: const Text('ToDo list'),
       ),
-      body: Column(
-        children: [
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: TextField(
-                  controller: _textFieldController,
-                  decoration:
-                      const InputDecoration(hintText: 'Type your new todo'),
+      body: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+        child: Column(
+          children: [
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: TextField(
+                    controller: _textField,
+                    decoration:
+                        const InputDecoration(hintText: 'Type your new todo'),
+                  ),
                 ),
-              ),
-              FloatingActionButton(
-                onPressed: () async {
-                  _addToDoItem(_textFieldController.text);
-                },
-                tooltip: 'Add Item',
-                child: Icon(Icons.add),
-              ),
-            ],
-          ),
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              children: _todos.map<Widget>((ToDo todo) {
-                return ToDoItem(
-                  todo: todo,
-                  onCheckBoxTap: _toggleCheck,
-                  onItemTap: _removeToDoItem,
-                );
-              }).toList(),
+                FloatingActionButton.small(
+                  onPressed: () async {
+                    _addItem(_textField.text);
+                  },
+                  tooltip: 'Add Item',
+                  child: const Icon(Icons.add),
+                ),
+              ],
             ),
-          ),
-        ],
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                children: _itemList.map<Widget>((ToDo todo) {
+                  return ToDoItem(
+                    todo: todo,
+                    onCheckBoxTap: _toggleCheck,
+                    onItemTap: _removeItem,
+                  );
+                }).toList(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -99,7 +101,7 @@ class ToDoItem extends StatelessWidget {
   TextStyle? _getTextStyle(bool checked) {
     if (!checked) return null;
 
-    return TextStyle(
+    return const TextStyle(
       color: Colors.black54,
       decoration: TextDecoration.lineThrough,
     );
@@ -108,7 +110,6 @@ class ToDoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      // onTap: () => onToDoChanged(todo),
       onTap: () => {onItemTap(todo)},
       leading: IconButton(
         icon: Icon(todo.checked

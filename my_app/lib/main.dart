@@ -11,9 +11,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+    return MaterialApp(
+      theme: ThemeData(primarySwatch: Colors.indigo),
       title: 'ToDo List',
-      home: ToDoList(),
+      home: const ToDoList(),
     );
   }
 }
