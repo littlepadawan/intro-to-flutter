@@ -8,13 +8,15 @@ class AboutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('About the app'),
+        title: const Text('About'),
       ),
       body: const Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text("You've reached the about page"),
+            Text("Header: You've reached the about page"),
+            SizedBox(height: 20),
+            Text('Here will be info about the page'),
           ],
         ),
       ),
