@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/providers/current_position.dart';
 import 'package:my_app/widgets/navigation_bar.dart';
 import 'package:my_app/providers/fetch_weather_data.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:my_app/widgets/permission_denied_dialog.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter/services.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,31 +16,50 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String? fetchedData;
-  Position? currentPosition;
+  String? currentLatitude;
+  String? currentLongitude;
 
   @override
   void initState() {
     super.initState();
-    _getCurrentLocation();
-    _fetchData(); // TODO: Geolocator
+    _initData();
+  }
+
+  Future<void> _initData() async {
+    await _getCurrentLocation();
+    if (currentLatitude != null && currentLongitude != null) {
+      await _fetchData();
+    }
   }
 
   Future<void> _getCurrentLocation() async {
     PermissionStatus permissionStatus = await Permission.location.request();
 
     if (permissionStatus.isGranted) {
-      // TODO: Handle if not given permission
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+      Position position = await getCurrentLocation();
       setState(() {
-        currentPosition = position;
+        currentLatitude = position.latitude.toString();
+        currentLongitude = position.longitude.toString();
       });
+    } else {
+      // Handle case when location permission is not granted
+      _showPermissionDeniedDialog();
     }
+  }
+
+  Future<void> _showPermissionDeniedDialog() async {
+    await showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return PermissionDeniedDialog();
+      },
+    );
   }
 
   Future<void> _fetchData() async {
     try {
-      String data = await fetchWeatherData();
+      String data = await fetchWeatherData(currentLatitude!, currentLongitude!);
       setState(() {
         fetchedData = data;
       });
@@ -64,15 +86,6 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.all(8),
                       child: Text(
                         fetchedData!,
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    )
-                  : Container(),
-              currentPosition != null
-                  ? Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Text(
-                        'Position: $currentPosition',
                         style: const TextStyle(fontSize: 16),
                       ),
                     )
