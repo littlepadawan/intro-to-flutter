@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/widgets/navigation_bar.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:my_app/providers/fetch_weather_data.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,17 +12,22 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String? fetchedData;
 
-  Future<void> _fetchJsonData() async {
-    const url =
-        'https://api.openweathermap.org/data/2.5/weather?q=Paris&appid=5430333b2b984d9cf3d533524975465e';
-    final response = await http.get(Uri.parse(url));
+  @override
+  void initState() {
+    super.initState();
+    _fetchData(); // TODO: Geolocator
+  }
 
-    if (response.statusCode == 200) {
+  Future<void> _fetchData() async {
+    try {
+      String data = await fetchWeatherData();
       setState(() {
-        fetchedData = json.decode(response.body).toString();
+        fetchedData = data;
       });
-    } else {
-      throw Exception('Failed to load JSON data');
+    } catch (e) {
+      setState(() {
+        fetchedData = 'Error fetching data';
+      });
     }
   }
 
@@ -37,10 +41,6 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ElevatedButton(
-              onPressed: _fetchJsonData,
-              child: const Text('Fetch Data'),
-            ),
             const SizedBox(height: 30),
             fetchedData != null
                 ? Padding(
