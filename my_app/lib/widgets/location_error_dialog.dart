@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class PermissionDeniedDialog extends StatelessWidget {
-  const PermissionDeniedDialog({super.key});
+class LocationErrorDialog extends StatelessWidget {
+  final String errorMessage;
+
+  const LocationErrorDialog({super.key, required this.errorMessage});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Location Permission Denied'),
-      content: const Text(
-          'Please provide location permission to use the app. To do this, update location permission in app settings and restart the app.'),
+      title: const Text('Location Error'),
+      content: Text(errorMessage),
       actions: <Widget>[
         TextButton(
           child: const Text('Close the app'),

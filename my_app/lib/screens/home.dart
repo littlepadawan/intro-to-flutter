@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:my_app/providers/current_position.dart';
+import 'package:my_app/providers/current_location.dart';
+import 'package:my_app/widgets/location_error_dialog.dart';
 import 'package:my_app/widgets/navigation_bar.dart';
 import 'package:my_app/providers/fetch_weather_data.dart';
 import 'package:geolocator/geolocator.dart';
@@ -36,15 +39,34 @@ class _HomePageState extends State<HomePage> {
     PermissionStatus permissionStatus = await Permission.location.request();
 
     if (permissionStatus.isGranted) {
-      Position position = await getCurrentLocation();
-      setState(() {
-        currentLatitude = position.latitude.toString();
-        currentLongitude = position.longitude.toString();
-      });
+      try {
+        Position position = await getCurrentLocation();
+        setState(() {
+          currentLatitude = position.latitude.toString();
+          currentLongitude = position.longitude.toString();
+        });
+      } on TimeoutException catch (_) {
+        _showLocationErrorDialog(
+            'Location request timeout. Close the app and try again.');
+      } on LocationServiceDisabledException catch (_) {
+        _showLocationErrorDialog(
+            'Location service is disabled. Update this in settings and try again.');
+      } catch (_) {
+        _showLocationErrorDialog('Error getting location.');
+      }
     } else {
-      // Handle case when location permission is not granted
       _showPermissionDeniedDialog();
     }
+  }
+
+  Future<void> _showLocationErrorDialog(String errorMessage) async {
+    await showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return LocationErrorDialog(errorMessage: errorMessage);
+      },
+    );
   }
 
   Future<void> _showPermissionDeniedDialog() async {
@@ -63,7 +85,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         fetchedData = data;
       });
-    } catch (e) {
+    } catch (error) {
       setState(() {
         fetchedData = 'Error fetching data';
       });
