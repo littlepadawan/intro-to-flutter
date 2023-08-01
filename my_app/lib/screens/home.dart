@@ -9,6 +9,8 @@ import 'package:my_app/widgets/navigation_bar.dart';
 import 'package:my_app/providers/fetch_weather_data.dart';
 import 'package:my_app/widgets/error_dialog.dart';
 
+import '../models/weather_data.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -17,6 +19,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  WeatherData? currentWeather;
   String? fetchedData;
   String? currentLatitude;
   String? currentLongitude;
@@ -66,13 +69,15 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _fetchData() async {
     try {
-      String data = await fetchWeatherData(currentLatitude!, currentLongitude!);
+      WeatherData data =
+          await fetchWeatherData(currentLatitude!, currentLongitude!);
       setState(() {
-        fetchedData = data;
+        currentWeather = data;
       });
-    } catch (_) {
+    } catch (e) {
+      String error = e.toString();
       ErrorDialog.showErrorDialog(context, 'Data Error',
-          'Error fetching weather data. Close the app and try again.');
+          '$error. Error fetching weather data. Close the app and try again.');
     }
   }
 
@@ -87,11 +92,11 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const SizedBox(height: 30),
-              fetchedData != null
+              currentWeather != null
                   ? Padding(
                       padding: const EdgeInsets.all(8),
                       child: Text(
-                        fetchedData!,
+                        currentWeather.toString(),
                         style: const TextStyle(fontSize: 16),
                       ),
                     )
