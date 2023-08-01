@@ -1,14 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 import 'package:my_app/providers/current_location.dart';
-import 'package:my_app/widgets/location_error_dialog.dart';
 import 'package:my_app/widgets/navigation_bar.dart';
 import 'package:my_app/providers/fetch_weather_data.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:my_app/widgets/permission_denied_dialog.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter/services.dart';
+import 'package:my_app/widgets/error_dialog.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,54 +28,40 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _initData() async {
-    await _getCurrentLocation();
-    if (currentLatitude != null && currentLongitude != null) {
-      await _fetchData();
-    }
+    await _getLocationPermission();
   }
 
-  Future<void> _getCurrentLocation() async {
+  Future<void> _getLocationPermission() async {
     PermissionStatus permissionStatus = await Permission.location.request();
 
     if (permissionStatus.isGranted) {
-      try {
-        Position position = await getCurrentLocation();
-        setState(() {
-          currentLatitude = position.latitude.toString();
-          currentLongitude = position.longitude.toString();
-        });
-      } on TimeoutException catch (_) {
-        _showLocationErrorDialog(
-            'Location request timeout. Close the app and try again.');
-      } on LocationServiceDisabledException catch (_) {
-        _showLocationErrorDialog(
-            'Location service is disabled. Update this in settings and try again.');
-      } catch (_) {
-        _showLocationErrorDialog('Error getting location.');
-      }
+      await _getLocationCoordinates();
     } else {
-      _showPermissionDeniedDialog();
+      ErrorDialog.showErrorDialog(context, 'Location Permission Denied',
+          'Please provide location permission to use the app. To do this, update location permission in app settings and restart the app.');
     }
   }
 
-  Future<void> _showLocationErrorDialog(String errorMessage) async {
-    await showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return LocationErrorDialog(errorMessage: errorMessage);
-      },
-    );
-  }
-
-  Future<void> _showPermissionDeniedDialog() async {
-    await showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return PermissionDeniedDialog();
-      },
-    );
+  Future<void> _getLocationCoordinates() async {
+    try {
+      Position position = await getCurrentLocation();
+      setState(
+        () {
+          currentLatitude = position.latitude.toString();
+          currentLongitude = position.longitude.toString();
+        },
+      );
+      await _fetchData();
+    } on TimeoutException catch (_) {
+      ErrorDialog.showErrorDialog(context, 'Location Error',
+          'Location request timeout. Close the app and try again.');
+    } on LocationServiceDisabledException catch (_) {
+      ErrorDialog.showErrorDialog(context, 'Location Error',
+          'Location service is disabled. Update location permission in settings and try again.');
+    } catch (_) {
+      ErrorDialog.showErrorDialog(
+          context, 'Location Error', 'Error getting location.');
+    }
   }
 
   Future<void> _fetchData() async {
@@ -85,10 +70,9 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         fetchedData = data;
       });
-    } catch (error) {
-      setState(() {
-        fetchedData = 'Error fetching data';
-      });
+    } catch (_) {
+      ErrorDialog.showErrorDialog(context, 'Data Error',
+          'Error fetching weather data. Close the app and try again.');
     }
   }
 
