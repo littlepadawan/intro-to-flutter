@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:my_app/widgets/current_weather_display.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'package:my_app/providers/geolocation_coordinates.dart';
@@ -68,7 +69,7 @@ class _HomePageState extends State<HomePage> {
     } catch (e) {
       String error = e.toString(); // TODO: Remove before handin
       ErrorDialog.showErrorDialog(context, 'Data Error',
-          '$error. Error fetching weather data. Close the app and try again.');
+          '$error. Error fetching weather data. Click refresh to try again.');
     }
   }
 
@@ -79,21 +80,27 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Home'),
       ),
-      body: Center(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(height: 30),
-              currentWeather != null
-                  ? Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Text(
-                        currentWeather.toString(),
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    )
-                  : Container(),
-            ]),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: CurrentWeatherDisplay(
+                weatherData: currentWeather,
+                refreshCallback: _getLocationCoordinates,
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: ElevatedButton(
+                onPressed: _getLocationCoordinates,
+                child: const Text('Refresh'),
+              ),
+            ),
+          )
+        ],
       ),
       bottomNavigationBar: const CustomNavigationBar(),
     );
