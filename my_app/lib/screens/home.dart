@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: const Text('Current weather'),
       ),
       body: Column(
         children: [
@@ -94,9 +94,16 @@ class _HomePageState extends State<HomePage> {
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.only(bottom: 20),
-              child: ElevatedButton(
-                onPressed: _getLocationCoordinates,
-                child: const Text('Refresh'),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Last updated: ${currentWeather?.lastUpdate}'),
+                  SizedBox(width: 10),
+                  ElevatedButton(
+                    onPressed: _getLocationCoordinates,
+                    child: const Icon(Icons.refresh),
+                  ),
+                ],
               ),
             ),
           )

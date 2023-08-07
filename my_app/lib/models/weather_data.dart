@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:my_app/utilities/capitalize.dart';
 import 'package:my_app/utilities/date_format.dart';
 import 'package:my_app/utilities/round_double.dart';
@@ -14,6 +15,7 @@ class WeatherData {
   int? year;
   String? description;
   double? temperature;
+  String? lastUpdate;
 
   WeatherData(
       {required this.latitude,
@@ -25,7 +27,8 @@ class WeatherData {
       required this.month,
       required this.year,
       required this.description,
-      required this.temperature});
+      required this.temperature,
+      required this.lastUpdate});
 
   factory WeatherData.fromJson(Map<String, dynamic> json, double latitude,
       double longitude, LocationData locationData) {
@@ -43,6 +46,8 @@ class WeatherData {
       year: today.year,
       description: capitalize(json['weather'][0]['description']),
       temperature: roundToOneDecimal(json['main']['temp']),
+      lastUpdate: DateFormat.Hm()
+          .format(DateTime.fromMillisecondsSinceEpoch(json['dt'] * 1000)),
     );
   }
 

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/models/weather_data.dart';
 
-import '../utilities/capitalize.dart';
-
 class CurrentWeatherDisplay extends StatefulWidget {
   final WeatherData? weatherData;
   final VoidCallback refreshCallback;
