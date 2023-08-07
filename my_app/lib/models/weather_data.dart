@@ -1,7 +1,12 @@
 import 'package:my_app/utilities/date_format.dart';
+import 'package:my_app/utilities/round_double.dart';
+import 'location_data.dart';
 
 class WeatherData {
-  String? location;
+  double? latitude;
+  double? longitude;
+  String? city;
+  String? country;
   String? weekday;
   int? date;
   String? month;
@@ -9,37 +14,40 @@ class WeatherData {
   String? description;
   double? temperature;
 
-  WeatherData({
-    required this.location,
-    required this.weekday,
-    required this.date,
-    required this.month,
-    required this.year,
-    required this.description,
-    required this.temperature,
-  });
+  WeatherData(
+      {required this.latitude,
+      required this.longitude,
+      required this.city,
+      required this.country,
+      required this.weekday,
+      required this.date,
+      required this.month,
+      required this.year,
+      required this.description,
+      required this.temperature});
 
-  factory WeatherData.fromJson(Map<String, dynamic> json) {
-    //TODO get location by geocoding AOI and not from this json
-    //TODO get current date from actual API?
-    //TODO get date as weekday, month, date, year
-    // TODO round temperature to integer
+  factory WeatherData.fromJson(Map<String, dynamic> json, double latitude,
+      double longitude, LocationData locationData) {
     //TODO get time of data fetch
+
     DateTime today = DateTime.now();
     return WeatherData(
-      location: json['name'],
+      latitude: latitude,
+      longitude: longitude,
+      city: json['name'], // TODO: error handling since func is depracated?
+      country: locationData.country,
       weekday: getWeekdayAsString(today.weekday),
       date: today.day,
       month: getMonthAsString(today.month),
       year: today.year,
       description: json['weather'][0]['description'],
-      temperature: json['main']['temp'],
+      temperature: roundToOneDecimal(json['main']['temp']),
     );
   }
 
   // TODO: remove, do not need this in the actual app
   @override
   String toString() {
-    return 'WeatherData{location: $location, date: $weekday, $month $date, $year, description: $description, temperature: $temperature}';
+    return 'WeatherData{latitude: $latitude, longitude: $longitude, city: $city, country: $country, date: $weekday, $month $date, $year, description: $description, temperature: $temperature}';
   }
 }
