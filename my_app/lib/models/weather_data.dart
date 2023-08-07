@@ -1,3 +1,4 @@
+import 'package:my_app/utilities/capitalize.dart';
 import 'package:my_app/utilities/date_format.dart';
 import 'package:my_app/utilities/round_double.dart';
 import 'location_data.dart';
@@ -40,7 +41,7 @@ class WeatherData {
       date: today.day,
       month: getMonthAsString(today.month),
       year: today.year,
-      description: json['weather'][0]['description'],
+      description: capitalize(json['weather'][0]['description']),
       temperature: roundToOneDecimal(json['main']['temp']),
     );
   }
