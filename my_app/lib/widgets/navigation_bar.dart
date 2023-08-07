@@ -5,10 +5,10 @@ class CustomNavigationBar extends StatefulWidget {
   const CustomNavigationBar({Key? key}) : super(key: key);
 
   @override
-  _CustomNavigationBarState createState() => _CustomNavigationBarState();
+  State<CustomNavigationBar> createState() => _CustomNavigationBarState();
 }
 
-class _CustomNavigationBarState extends State {
+class _CustomNavigationBarState extends State<CustomNavigationBar> {
   int _selectedIndex = 0; // To track which screen is active/clicked
 
   // const CustomBottomNavigationBar({super.key, required this.currentIndex, required this.onTap});
@@ -18,12 +18,12 @@ class _CustomNavigationBarState extends State {
     return BottomNavigationBar(
       items: const [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
+          icon: Icon(Icons.sunny),
+          label: 'Current',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
-          label: 'Settings',
+          icon: Icon(Icons.info),
+          label: 'About',
         ),
       ],
       currentIndex: _selectedIndex,
