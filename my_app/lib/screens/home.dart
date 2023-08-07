@@ -89,6 +89,7 @@ class _HomePageState extends State<HomePage> {
               child: RefreshSection(refreshCallback: _getLocationCoordinates),
             ),
           ),
+          const SizedBox(height: 300),
           Expanded(
             child: SingleChildScrollView(
               child: CurrentWeatherDisplay(
@@ -100,10 +101,11 @@ class _HomePageState extends State<HomePage> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: LastUpdatedSection(
-                  lastUpdate: currentWeather?.lastUpdate,
-                )),
+              padding: const EdgeInsets.only(bottom: 20),
+              child: LastUpdatedSection(
+                lastUpdate: currentWeather?.lastUpdate,
+              ),
+            ),
           )
         ],
       ),
@@ -123,10 +125,12 @@ class RefreshSection extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        TextButton(
+        const Spacer(),
+        IconButton(
           onPressed: refreshCallback,
-          child: Icon(Icons.refresh, size: 20),
+          icon: const Icon(Icons.refresh, color: Colors.grey, size: 20),
         ),
+        const SizedBox(width: 10),
       ],
     );
   }
@@ -145,9 +149,9 @@ class LastUpdatedSection extends StatelessWidget {
       children: [
         Text(
           'Last updated: $lastUpdate',
-          style: TextStyle(fontSize: 14, color: Colors.grey),
+          style: const TextStyle(fontSize: 14, color: Colors.grey),
         ),
-        SizedBox(width: 10),
+        const SizedBox(width: 18),
       ],
     );
   }

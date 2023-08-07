@@ -21,7 +21,6 @@ class _CurrentWeatherDisplayState extends State<CurrentWeatherDisplay> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        const SizedBox(height: 40),
         if (widget.weatherData != null) ...[
           Location(
             city: widget.weatherData?.city,
@@ -115,7 +114,7 @@ class Temperature extends StatelessWidget {
       children: <Widget>[
         Text(
           '$temperature °C',
-          style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
       ],
     );
