@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'package:my_app/providers/current_location.dart';
+import 'package:my_app/providers/geolocation_coordinates.dart';
 import 'package:my_app/widgets/navigation_bar.dart';
 import 'package:my_app/providers/fetch_weather_data.dart';
 import 'package:my_app/widgets/error_dialog.dart';
@@ -20,9 +20,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   WeatherData? currentWeather;
-  String? fetchedData;
-  String? currentLatitude;
-  String? currentLongitude;
 
   @override
   void initState() {
@@ -39,6 +36,7 @@ class _HomePageState extends State<HomePage> {
 
     if (permissionStatus.isGranted) {
       await _getLocationCoordinates();
+      return;
     } else {
       ErrorDialog.showErrorDialog(context, 'Location Permission Denied',
           'Please provide location permission to use the app. To do this, update location permission in app settings and restart the app.');
@@ -47,14 +45,8 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _getLocationCoordinates() async {
     try {
-      Position position = await getCurrentLocation();
-      setState(
-        () {
-          currentLatitude = position.latitude.toString();
-          currentLongitude = position.longitude.toString();
-        },
-      );
-      await _fetchData();
+      Position position = await getCurrentCoordinates();
+      await _fetchData(position.latitude, position.longitude);
     } on TimeoutException catch (_) {
       ErrorDialog.showErrorDialog(context, 'Location Error',
           'Location request timeout. Close the app and try again.');
@@ -67,21 +59,21 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future<void> _fetchData() async {
+  Future<void> _fetchData(double latitude, double longitude) async {
     try {
-      WeatherData data =
-          await fetchWeatherData(currentLatitude!, currentLongitude!);
+      WeatherData data = await fetchWeatherData(latitude, longitude);
       setState(() {
         currentWeather = data;
       });
     } catch (e) {
-      String error = e.toString();
+      String error = e.toString(); // TODO: Remove before handin
       ErrorDialog.showErrorDialog(context, 'Data Error',
           '$error. Error fetching weather data. Close the app and try again.');
     }
   }
 
   @override
+  // TODO: Add button to trigger new datafetch
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
