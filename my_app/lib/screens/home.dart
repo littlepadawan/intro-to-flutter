@@ -82,6 +82,13 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Column(
         children: [
+          Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: RefreshSection(refreshCallback: _getLocationCoordinates),
+            ),
+          ),
           Expanded(
             child: SingleChildScrollView(
               child: CurrentWeatherDisplay(
@@ -93,23 +100,55 @@ class _HomePageState extends State<HomePage> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Last updated: ${currentWeather?.lastUpdate}'),
-                  SizedBox(width: 10),
-                  ElevatedButton(
-                    onPressed: _getLocationCoordinates,
-                    child: const Icon(Icons.refresh),
-                  ),
-                ],
-              ),
-            ),
+                padding: const EdgeInsets.only(bottom: 20),
+                child: LastUpdatedSection(
+                  lastUpdate: currentWeather?.lastUpdate,
+                )),
           )
         ],
       ),
       bottomNavigationBar: const CustomNavigationBar(),
+    );
+  }
+}
+
+class RefreshSection extends StatelessWidget {
+  final VoidCallback refreshCallback;
+
+  const RefreshSection({Key? key, required this.refreshCallback})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        TextButton(
+          onPressed: refreshCallback,
+          child: Icon(Icons.refresh, size: 20),
+        ),
+      ],
+    );
+  }
+}
+
+class LastUpdatedSection extends StatelessWidget {
+  final String? lastUpdate;
+
+  const LastUpdatedSection({Key? key, required this.lastUpdate})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Text(
+          'Last updated: $lastUpdate',
+          style: TextStyle(fontSize: 14, color: Colors.grey),
+        ),
+        SizedBox(width: 10),
+      ],
     );
   }
 }
