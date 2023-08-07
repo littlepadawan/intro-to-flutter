@@ -1,30 +1,30 @@
 String getWeekdayAsString(int weekdayNumber) {
   List<String> weekdays = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday'
+    'Mon',
+    'Tue',
+    'Wednes',
+    'Thurs',
+    'Fri',
+    'Sat',
+    'Sun'
   ];
   return weekdays[weekdayNumber - 1];
 }
 
 String getMonthAsString(int monthNumber) {
   List<String> months = [
-    'January',
-    'February',
-    'March',
-    'April',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
     'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
   ];
   return months[monthNumber - 1];
 }
