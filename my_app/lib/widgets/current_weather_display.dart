@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/models/weather_data.dart';
 
-import 'error_dialog.dart';
-
 class CurrentWeatherDisplay extends StatefulWidget {
   final WeatherData? weatherData;
   final VoidCallback refreshCallback;
