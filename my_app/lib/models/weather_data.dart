@@ -41,7 +41,7 @@ class WeatherData {
       description: capitalize(json['weather'][0]['description']),
       icon: json['weather'][0]['icon'],
       temperature: roundToOneDecimal(json['main']['temp']),
-      lastUpdate: DateFormat.Hm()
+      lastUpdate: DateFormat.jm()
           .format(DateTime.fromMillisecondsSinceEpoch(json['dt'] * 1000)),
     );
   }
