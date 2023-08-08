@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/models/weather_data.dart';
 
+import 'error_dialog.dart';
+
 class CurrentWeatherDisplay extends StatefulWidget {
   final WeatherData? weatherData;
   final VoidCallback refreshCallback;
@@ -40,7 +42,7 @@ class _CurrentWeatherDisplayState extends State<CurrentWeatherDisplay> {
           Temperature(temperature: widget.weatherData?.temperature),
         ] else ...[
           const Text(
-              "Something went wrong fetching the weather. Close the app and try again."),
+              'Error fetching weather data. Close the app and try again.'),
         ],
       ],
     );
@@ -142,6 +144,22 @@ class Temperature extends StatelessWidget {
         Text(
           '$temperature°C',
           style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        ),
+      ],
+    );
+  }
+}
+
+class ErrorMessage extends StatelessWidget {
+  const ErrorMessage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          'Error fetching weather data. Refresh or close the app to try again.',
         ),
       ],
     );

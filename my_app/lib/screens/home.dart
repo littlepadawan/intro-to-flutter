@@ -79,7 +79,7 @@ class _HomePageState extends State<HomePage> {
     } catch (e) {
       String error = e.toString(); // TODO: Remove before handin
       ErrorDialog.showErrorDialog(context, 'Data Error',
-          '$error. Error fetching weather data. Click refresh to try again.');
+          '$error. Error fetching weather data. Close the app and try again.');
       setState(() {
         isLoading = false;
       });
