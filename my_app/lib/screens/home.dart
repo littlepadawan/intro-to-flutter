@@ -21,6 +21,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   WeatherData? currentWeather;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -46,8 +47,16 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _getLocationCoordinates() async {
     try {
+      setState(() {
+        isLoading = true;
+      });
+
       Position position = await getCurrentCoordinates();
       await _fetchData(position.latitude, position.longitude);
+
+      setState(() {
+        isLoading = false;
+      });
     } on TimeoutException catch (_) {
       ErrorDialog.showErrorDialog(context, 'Location Error',
           'Location request timeout. Close the app and try again.');
@@ -65,11 +74,15 @@ class _HomePageState extends State<HomePage> {
       WeatherData data = await fetchWeatherData(latitude, longitude);
       setState(() {
         currentWeather = data;
+        isLoading = false;
       });
     } catch (e) {
       String error = e.toString(); // TODO: Remove before handin
       ErrorDialog.showErrorDialog(context, 'Data Error',
           '$error. Error fetching weather data. Click refresh to try again.');
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
@@ -90,23 +103,27 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           const SizedBox(height: 100),
-          Expanded(
-            child: SingleChildScrollView(
-              child: CurrentWeatherDisplay(
-                weatherData: currentWeather,
-                refreshCallback: _getLocationCoordinates,
+          if (isLoading) ...[
+            const CircularProgressIndicator(),
+          ] else ...[
+            Expanded(
+              child: SingleChildScrollView(
+                child: CurrentWeatherDisplay(
+                  weatherData: currentWeather,
+                  refreshCallback: _getLocationCoordinates,
+                ),
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: LastUpdatedSection(
-                lastUpdate: currentWeather?.lastUpdate,
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: LastUpdatedSection(
+                  lastUpdate: currentWeather?.lastUpdate,
+                ),
               ),
-            ),
-          )
+            )
+          ],
         ],
       ),
       bottomNavigationBar: const CustomNavigationBar(),

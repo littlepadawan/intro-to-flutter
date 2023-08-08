@@ -40,7 +40,7 @@ class _CurrentWeatherDisplayState extends State<CurrentWeatherDisplay> {
           Temperature(temperature: widget.weatherData?.temperature),
         ] else ...[
           const Text(
-              "Something went wrong fetching the weather. Restart the app to try again."),
+              "Something went wrong fetching the weather. Close the app and try again."),
         ],
       ],
     );
