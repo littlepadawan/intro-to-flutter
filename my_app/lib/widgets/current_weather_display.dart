@@ -29,10 +29,7 @@ class _CurrentWeatherDisplayState extends State<CurrentWeatherDisplay> {
           ),
           const SizedBox(height: 20),
           Date(
-            weekday: widget.weatherData?.weekday,
             date: widget.weatherData?.date,
-            month: widget.weatherData?.month,
-            year: widget.weatherData?.year,
           ),
           const SizedBox(height: 8),
           Description(description: widget.weatherData?.description),
@@ -89,25 +86,19 @@ class Location extends StatelessWidget {
 }
 
 class Date extends StatelessWidget {
-  final String? weekday;
-  final int? date;
-  final String? month;
-  final int? year;
+  final String? date;
 
-  const Date(
-      {Key? key,
-      required this.weekday,
-      required this.date,
-      required this.month,
-      required this.year})
-      : super(key: key);
+  const Date({
+    Key? key,
+    required this.date,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text('$weekday, $month $date, $year'),
+        Text('$date'),
       ],
     );
   }

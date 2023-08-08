@@ -1,6 +1,5 @@
 import 'package:intl/intl.dart';
 import 'package:my_app/utilities/capitalize.dart';
-import 'package:my_app/utilities/date_format.dart';
 import 'package:my_app/utilities/round_double.dart';
 import 'location_data.dart';
 
@@ -9,10 +8,7 @@ class WeatherData {
   double? longitude;
   String? city;
   String? country;
-  String? weekday;
-  int? date;
-  String? month;
-  int? year;
+  String? date;
   String? description;
   String? icon;
   double? temperature;
@@ -23,10 +19,7 @@ class WeatherData {
       required this.longitude,
       required this.city,
       required this.country,
-      required this.weekday,
       required this.date,
-      required this.month,
-      required this.year,
       required this.description,
       required this.icon,
       required this.temperature,
@@ -42,10 +35,9 @@ class WeatherData {
       longitude: longitude,
       city: json['name'], // TODO: error handling since func is depracated?
       country: locationData.country,
-      weekday: getWeekdayAsString(today.weekday),
-      date: today.day,
-      month: getMonthAsString(today.month),
-      year: today.year,
+      // weekday: getWeekdayAsString(today.weekday),
+      date:
+          '${DateFormat('E').format(today)}, ${DateFormat('MMMd').format(today)}, ${DateFormat('y').format(today)}',
       description: capitalize(json['weather'][0]['description']),
       icon: json['weather'][0]['icon'],
       temperature: roundToOneDecimal(json['main']['temp']),
@@ -57,6 +49,6 @@ class WeatherData {
   // TODO: remove, do not need this in the actual app
   @override
   String toString() {
-    return 'WeatherData{latitude: $latitude, longitude: $longitude, city: $city, country: $country, date: $weekday, $month $date, $year, description: $description, temperature: $temperature}';
+    return 'WeatherData{latitude: $latitude, longitude: $longitude, city: $city, country: $country, date: $date, description: $description, temperature: $temperature}';
   }
 }
