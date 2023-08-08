@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:my_app/widgets/current_weather_display.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'package:my_app/providers/geolocation_coordinates.dart';
+import 'package:my_app/widgets/current_weather_display.dart';
 import 'package:my_app/widgets/navigation_bar.dart';
-import 'package:my_app/providers/fetch_weather_data.dart';
 import 'package:my_app/widgets/error_dialog.dart';
+
+import 'package:my_app/providers/geolocation_coordinates.dart';
+import 'package:my_app/providers/fetch_weather_data.dart';
 
 import '../models/weather_data.dart';
 
@@ -64,8 +65,8 @@ class _HomePageState extends State<HomePage> {
       ErrorDialog.showErrorDialog(context, 'Location Error',
           'Location service is disabled. Update location permission in settings and try again.');
     } catch (_) {
-      ErrorDialog.showErrorDialog(
-          context, 'Location Error', 'Error getting location.');
+      ErrorDialog.showErrorDialog(context, 'Location Error',
+          'Error getting location. Close the app and try again.');
     }
   }
 
@@ -77,9 +78,8 @@ class _HomePageState extends State<HomePage> {
         isLoading = false;
       });
     } catch (e) {
-      String error = e.toString(); // TODO: Remove before handin
       ErrorDialog.showErrorDialog(context, 'Data Error',
-          '$error. Error fetching weather data. Close the app and try again.');
+          'Error fetching weather data. Close the app and try again.');
       setState(() {
         isLoading = false;
       });
@@ -87,7 +87,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  // TODO: Add button to trigger new datafetch
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
