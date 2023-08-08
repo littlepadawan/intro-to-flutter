@@ -14,6 +14,7 @@ class WeatherData {
   String? month;
   int? year;
   String? description;
+  String? icon;
   double? temperature;
   String? lastUpdate;
 
@@ -27,6 +28,7 @@ class WeatherData {
       required this.month,
       required this.year,
       required this.description,
+      required this.icon,
       required this.temperature,
       required this.lastUpdate});
 
@@ -45,6 +47,7 @@ class WeatherData {
       month: getMonthAsString(today.month),
       year: today.year,
       description: capitalize(json['weather'][0]['description']),
+      icon: json['weather'][0]['icon'],
       temperature: roundToOneDecimal(json['main']['temp']),
       lastUpdate: DateFormat.Hm()
           .format(DateTime.fromMillisecondsSinceEpoch(json['dt'] * 1000)),

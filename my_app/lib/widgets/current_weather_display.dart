@@ -22,6 +22,7 @@ class _CurrentWeatherDisplayState extends State<CurrentWeatherDisplay> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         if (widget.weatherData != null) ...[
+          WeatherIcon(icon: widget.weatherData?.icon),
           Location(
             city: widget.weatherData?.city,
             country: widget.weatherData?.country,
@@ -46,11 +47,32 @@ class _CurrentWeatherDisplayState extends State<CurrentWeatherDisplay> {
   }
 }
 
+class WeatherIcon extends StatelessWidget {
+  final String? icon;
+
+  const WeatherIcon({Key? key, required this.icon}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset(
+          'assets/weather_icons/$icon.png',
+          width: 180,
+          height: 180,
+        ),
+      ],
+    );
+  }
+}
+
 class Location extends StatelessWidget {
   final String? city;
   final String? country;
 
-  const Location({Key? key, this.city, this.country}) : super(key: key);
+  const Location({Key? key, required this.city, required this.country})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +94,12 @@ class Date extends StatelessWidget {
   final String? month;
   final int? year;
 
-  const Date({Key? key, this.weekday, this.date, this.month, this.year})
+  const Date(
+      {Key? key,
+      required this.weekday,
+      required this.date,
+      required this.month,
+      required this.year})
       : super(key: key);
 
   @override
@@ -89,7 +116,7 @@ class Date extends StatelessWidget {
 class Description extends StatelessWidget {
   final String? description;
 
-  const Description({Key? key, this.description}) : super(key: key);
+  const Description({Key? key, required this.description}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +132,7 @@ class Description extends StatelessWidget {
 class Temperature extends StatelessWidget {
   final double? temperature;
 
-  const Temperature({Key? key, this.temperature}) : super(key: key);
+  const Temperature({Key? key, required this.temperature}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +140,7 @@ class Temperature extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
-          '$temperature °C',
+          '$temperature°C',
           style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
       ],
