@@ -22,6 +22,10 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
           label: 'Current',
         ),
         BottomNavigationBarItem(
+          icon: Icon(Icons.calendar_month),
+          label: 'Forecast',
+        ),
+        BottomNavigationBarItem(
           icon: Icon(Icons.info),
           label: 'About',
         ),
@@ -40,9 +44,14 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
         break;
       case 1:
         {
-          GoRouter.of(context).go('/about');
+          GoRouter.of(context).go('/forecast');
         }
         break;
+      case 2:
+        {
+          GoRouter.of(context).go('/about');
+          break;
+        }
     }
 
     setState(() {

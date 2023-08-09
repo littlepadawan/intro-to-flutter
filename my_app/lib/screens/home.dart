@@ -79,7 +79,7 @@ class _HomePageState extends State<HomePage> {
       });
     } catch (e) {
       ErrorDialog.showErrorDialog(context, 'Data Error',
-          'Error fetching weather data. Close the app and try again.');
+          '${e.toString()} Error fetching weather data. Close the app and try again.');
       setState(() {
         isLoading = false;
       });

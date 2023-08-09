@@ -1,24 +1,25 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:my_app/models/weather_data.dart';
+import 'package:my_app/models/forecast_data.dart';
 
 import '../models/location_data.dart';
 
-Future<WeatherData> fetchWeatherData(double latitude, double longitude) async {
+Future<ForecastData> fetchForecastData(
+    double latitude, double longitude) async {
   String stringLatitude = latitude.toString();
   String stringLongitude = longitude.toString();
   String url =
-      'https://api.openweathermap.org/data/2.5/weather?lat=$stringLatitude&lon=$stringLongitude&appid=5430333b2b984d9cf3d533524975465e&units=metric';
+      'https://api.openweathermap.org/data/2.5/forecast?lat=$stringLatitude&lon=$stringLongitude&appid=5430333b2b984d9cf3d533524975465e&units=metric';
   final response = await http.get(Uri.parse(url));
 
   if (response.statusCode != 200) {
-    throw Exception('Failed to load JSON data. ${response.statusCode}');
+    throw Exception('Failed to load JSON data');
   }
 
   final locationData =
       await ReverseGeocodingService().getGeolocationData(latitude, longitude);
-  WeatherData weatherData = WeatherData.fromJson(
+  ForecastData forecastData = ForecastData.fromJson(
       json.decode(response.body), latitude, longitude, locationData);
-  return weatherData;
+  return forecastData;
 }
