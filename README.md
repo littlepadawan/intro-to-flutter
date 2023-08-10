@@ -10,10 +10,28 @@ This application was developed for the course Introduction to App Development wi
 
 ## Screenshots
 
-![Weather App Screenshot](my_app/assets/screenshots/home.png)
-![Weather App Screenshot](my_app/assets/screenshots/forecast.png)
-![Weather App Screenshot](my_app/assets/screenshots/forecast_collapsed.png)
-![Weather App Screenshot](my_app/assets/screenshots/about.png)
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <div>
+    <img src="/my_app/assets/screenshots/home.png" alt="The home page" width="200"/>
+    <p style="text-align: center;">Home Page</p>
+  </div>
+  <br>
+  <div>
+    <img src="/my_app/assets/screenshots/forecast.png" alt="The forecast screen" width="200"/>
+    <p style="text-align: center;">Forecast Screen</p>
+  </div>
+  <br>
+  <div>
+    <img src="/my_app/assets/screenshots/forecast_collapsed.png" alt="The forecast screen with some days collapsed" width="200"/>
+    <p style="text-align: center;">Forecast Screen  with some days Collapsed</p>
+  </div>
+  <br>
+  <div>
+    <img src="/my_app/assets/screenshots/about.png" alt="The about screen" width="200"/>
+    <p style="text-align: center;">About Screen</p>
+  </div>
+</div>
+
 
 ## Compability
 
@@ -50,7 +68,7 @@ Other than Flutter and Android Studio, the following dependencies are required:
 ## Known Issues
 
 - Occasionally, there might be instances of an error related to location retrieval when switching between screens. Efforts have been made to pinpoint its cause, but it remains inknown due to its inconsistant nature. It appears to be related to initializing a request while another is already in progress.
-- From time to time, there could be occurrences of an error associated with parsing wind information from JSON. This inconsistency seems to manifest particularly when the emulator has been active for an extended duration. This suggests that the issue might not be related to the code itself. Interestingly, after restarting both the emulator and the computer following a substantial downtime, the code runs error-free, even though no modifications have been made.
+- From time to time, there could be occurrences of an error associated with parsing information from JSON. This inconsistency seems to manifest particularly when the emulator has been active for an extended duration and during night time. This suggests that the issue might not be related to the code itself. Interestingly, after restarting both the emulator and the computer following a substantial downtime, the code often runs error-free, even though no modifications have been made. 
 - The implementation of the navigation bar needs refinement. Currently, it is generated anew with the construction of each screen.
 - The app currenlty relies on a deprecated geolocation service to obtain city names. While an attempt was made to utilize reverse geocoding for this purpose, issues arose with obtaining accurate data, which led to the decision to fall back on the deprecated functionality.
 - The main screen currently does not display information about wind direction.
