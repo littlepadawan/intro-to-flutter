@@ -271,19 +271,3 @@ class SolarTransitions extends StatelessWidget {
     );
   }
 }
-
-class ErrorMessage extends StatelessWidget {
-  const ErrorMessage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text(
-          'Error fetching weather data. Refresh or close the app to try again.',
-        ),
-      ],
-    );
-  }
-}

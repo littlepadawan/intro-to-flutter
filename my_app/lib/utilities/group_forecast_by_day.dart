@@ -32,7 +32,9 @@ List<ForecastDay> groupForecastByDay(Map<String, dynamic> json) {
         temperature: (forecastEntry['main']['temp']).round(),
         pop: (forecastEntry['pop'] * 100).round(),
         windSpeed: (forecastEntry['wind']['speed']).round(),
-        windGust: (forecastEntry['wind']['gust']).round(),
+        windGust: forecastEntry['wind']['gust'] != null
+            ? forecastEntry['wind']['deg'] as int
+            : 0,
         windDeg: forecastEntry['wind']['deg'],
       ),
     );

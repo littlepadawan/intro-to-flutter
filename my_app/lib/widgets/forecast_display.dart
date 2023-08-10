@@ -172,7 +172,7 @@ class Entry extends StatelessWidget {
           Expanded(
             flex: 1,
             child: Transform.rotate(
-              angle: entry.windDeg * (pi / 180), // Transform to radians
+              angle: entry.windDeg! * (pi / 180), // Transform to radians
               child: const Icon(Icons.arrow_upward),
             ),
           ),
