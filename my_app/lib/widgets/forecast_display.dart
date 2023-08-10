@@ -119,7 +119,7 @@ class ForecastDisplay extends StatelessWidget {
                             child: Transform.rotate(
                               angle: entry.windDeg *
                                   (pi / 180), // Transform to radians
-                              child: Icon(Icons.arrow_forward),
+                              child: Icon(Icons.arrow_upward),
                             ),
                           ),
                         ],

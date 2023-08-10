@@ -16,20 +16,25 @@ class WeatherData {
   String? sunrise;
   String? sunset;
   String? lastUpdate;
+  int? windSpeed;
+  int? windGust;
 
-  WeatherData(
-      {required this.latitude,
-      required this.longitude,
-      required this.city,
-      required this.country,
-      required this.date,
-      required this.description,
-      required this.icon,
-      required this.temperature,
-      required this.feelsLike,
-      required this.sunrise,
-      required this.sunset,
-      required this.lastUpdate});
+  WeatherData({
+    required this.latitude,
+    required this.longitude,
+    required this.city,
+    required this.country,
+    required this.date,
+    required this.description,
+    required this.icon,
+    required this.temperature,
+    required this.feelsLike,
+    required this.sunrise,
+    required this.sunset,
+    required this.lastUpdate,
+    required this.windSpeed,
+    required this.windGust,
+  });
 
   factory WeatherData.fromJson(Map<String, dynamic> json, double latitude,
       double longitude, LocationData locationData) {
@@ -51,6 +56,8 @@ class WeatherData {
           DateTime.fromMillisecondsSinceEpoch(json['sys']['sunset'] * 1000)),
       lastUpdate: DateFormat.jm()
           .format(DateTime.fromMillisecondsSinceEpoch(json['dt'] * 1000)),
+      windSpeed: json['wind']['speed']?.round(),
+      windGust: json['wind']['gust']?.round(),
     );
   }
 

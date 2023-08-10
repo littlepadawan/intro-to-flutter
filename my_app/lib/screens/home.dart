@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                         refreshCallback: _getLocationCoordinates),
                   ),
                 ),
-                const SizedBox(height: 100),
+                const SizedBox(height: 20),
                 Expanded(
                   child: SingleChildScrollView(
                     child: CurrentWeatherDisplay(

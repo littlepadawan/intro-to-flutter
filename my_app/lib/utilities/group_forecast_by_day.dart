@@ -31,7 +31,7 @@ List<ForecastDay> groupForecastByDay(Map<String, dynamic> json) {
     final icon = forecastEntry['weather'][0]['icon'];
     final windSpeed = (forecastEntry['wind']['speed']).round();
     final windGust = (forecastEntry['wind']['gust']).round();
-    final windDeg = (forecastEntry['wind']['deg']).round();
+    final windDeg = (forecastEntry['wind']['deg']);
 
     currentDayEntries.add(
       ForecastEntry(

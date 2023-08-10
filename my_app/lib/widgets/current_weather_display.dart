@@ -1,4 +1,7 @@
 // import 'package:flutter/material.dart';
+import 'dart:ffi';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:my_app/models/weather_data.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,6 +27,14 @@ class _CurrentWeatherDisplayState extends State<CurrentWeatherDisplay> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         if (widget.weatherData != null) ...[
+          Wind(
+            windSpeed: widget.weatherData?.windSpeed,
+            windGust: widget.weatherData?.windGust,
+            // windDeg: widget.weatherData?.windDeg,
+          ),
+          SizedBox(
+            height: 30,
+          ),
           WeatherIcon(icon: widget.weatherData?.icon),
           Location(
             city: widget.weatherData?.city,
@@ -49,6 +60,48 @@ class _CurrentWeatherDisplayState extends State<CurrentWeatherDisplay> {
               'Error fetching weather data. Close the app and try again.'),
         ],
       ],
+    );
+  }
+}
+
+class Wind extends StatelessWidget {
+  final int? windSpeed;
+  final int? windGust;
+
+  const Wind({Key? key, required this.windSpeed, required this.windGust})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 36),
+      child: Row(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(children: [
+                Icon(
+                  Icons.air,
+                  color: Colors.grey.shade600,
+                ),
+              ]),
+              SizedBox(height: 4),
+              Row(
+                children: [
+                  Text(
+                    '$windSpeed${windGust != null ? " ($windGust m/s)" : " m/s"}',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color.fromARGB(255, 109, 109, 109),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
