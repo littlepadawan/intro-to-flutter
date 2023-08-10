@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/widgets/navigation_bar.dart';
+import '../widgets/navigation_bar.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
@@ -11,16 +11,15 @@ class AboutPage extends StatelessWidget {
         title: const Text('About'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          // crossAxisAlignment: CrossAxisAlignment.stretch, // uncomment to left align text
           children: [
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             header(),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             appDescription(),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             author(),
           ],
         ),

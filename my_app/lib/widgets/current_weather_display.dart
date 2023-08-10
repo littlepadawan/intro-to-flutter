@@ -1,10 +1,7 @@
-// import 'package:flutter/material.dart';
-import 'dart:ffi';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:my_app/models/weather_data.dart';
 import 'package:flutter/cupertino.dart';
+
+import '../models/weather_data.dart';
 
 class CurrentWeatherDisplay extends StatefulWidget {
   final WeatherData? weatherData;
@@ -30,9 +27,8 @@ class _CurrentWeatherDisplayState extends State<CurrentWeatherDisplay> {
           Wind(
             windSpeed: widget.weatherData?.windSpeed,
             windGust: widget.weatherData?.windGust,
-            // windDeg: widget.weatherData?.windDeg,
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           WeatherIcon(icon: widget.weatherData?.icon),
@@ -74,24 +70,26 @@ class Wind extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 36),
+      padding: const EdgeInsets.only(left: 36),
       child: Row(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(children: [
-                Icon(
-                  Icons.air,
-                  color: Colors.grey.shade600,
-                ),
-              ]),
-              SizedBox(height: 4),
+              Row(
+                children: [
+                  Icon(
+                    Icons.air,
+                    color: Colors.grey.shade600,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 4),
               Row(
                 children: [
                   Text(
                     '$windSpeed${windGust != null ? " ($windGust m/s)" : " m/s"}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                       color: Color.fromARGB(255, 109, 109, 109),
                     ),
@@ -204,7 +202,7 @@ class Temperature extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
         Row(
@@ -241,7 +239,7 @@ class SolarTransitions extends StatelessWidget {
           size: 20,
           color: Colors.grey.shade600,
         ),
-        SizedBox(
+        const SizedBox(
           width: 8,
         ),
         Text(
@@ -251,7 +249,7 @@ class SolarTransitions extends StatelessWidget {
             color: Color.fromARGB(255, 109, 109, 109),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 50,
         ),
         Icon(
@@ -259,7 +257,7 @@ class SolarTransitions extends StatelessWidget {
           size: 20,
           color: Colors.grey.shade600,
         ),
-        SizedBox(
+        const SizedBox(
           width: 8,
         ),
         Text(

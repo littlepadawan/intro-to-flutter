@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_app/screens/forecast.dart';
+
+import '../screens/forecast.dart';
 
 GoRoute routeForecast() {
   return GoRoute(

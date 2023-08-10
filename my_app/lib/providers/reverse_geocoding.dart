@@ -5,11 +5,7 @@ Future<Placemark?> getPlacemarks(double latitude, double longitude) async {
     List<Placemark> placemarks =
         await placemarkFromCoordinates(latitude, longitude);
     return placemarks.first;
-  } catch (e) {
-    // Handle any errors that may occur during geocoding // TODO: Update
-    print('Error during geocoding: $e');
+  } catch (_) {
+    return null;
   }
-
-  // Return an empty string if no city and country found
-  return null;
 }

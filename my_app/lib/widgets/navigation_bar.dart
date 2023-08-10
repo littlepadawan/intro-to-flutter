@@ -26,7 +26,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
       currentIndex: _selectedIndex,
       onTap: _navigateToScreen,
       fixedColor: Theme.of(context).primaryColor,
-      items: <BottomNavigationBarItem>[
+      items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.sunny),
           label: 'Current',

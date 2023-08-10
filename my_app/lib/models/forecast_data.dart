@@ -1,4 +1,4 @@
-import 'package:my_app/utilities/group_forecast_by_day.dart';
+import '../utilities/group_forecast_by_day.dart';
 import 'location_data.dart';
 
 class ForecastData {
@@ -23,17 +23,10 @@ class ForecastData {
     return ForecastData(
       latitude: latitude,
       longitude: longitude,
-      city: json['city']
-          ['name'], // TODO: error handling since func is depracated?
+      city: json['city']['name'],
       country: locationData.country,
       forecastDays: forecastDays,
     );
-  }
-
-  // TODO: remove, do not need this in the actual app
-  @override
-  String toString() {
-    return 'ForecastData{latitude: $latitude, longitude: $longitude, city: $city, country: $country, forecast: $forecastDays}';
   }
 }
 

@@ -13,124 +13,170 @@ class ForecastDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionTileTheme(
-      data: ExpansionTileThemeData(
+      data: const ExpansionTileThemeData(
         tilePadding: EdgeInsets.symmetric(
-            horizontal: 16, vertical: 8), // Padding around each tile
+          horizontal: 16,
+          vertical: 8,
+        ),
         backgroundColor: Colors.white, // Color of the expanded tile
         collapsedBackgroundColor: Colors.white,
       ),
       child: ListView.builder(
         itemCount: forecastDays.length,
-        padding: EdgeInsets.only(bottom: 20),
+        padding: const EdgeInsets.only(bottom: 20),
         itemBuilder: (context, index) {
           ForecastDay forecastDay = forecastDays[index];
           if (forecastDay.entries.isEmpty) {
             return Container();
           }
 
-          return ExpansionTile(
-            title: Text(
-              DateFormat('EEEE, MMMM d').format(forecastDay.date),
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
-            initiallyExpanded: true,
-            children: [
-              Column(
+          return Day(date: forecastDay.date, entries: forecastDay.entries);
+        },
+      ),
+    );
+  }
+}
+
+class Day extends StatelessWidget {
+  final DateTime date;
+  final List<ForecastEntry> entries;
+
+  const Day({Key? key, required this.date, required this.entries})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionTile(
+      title: Text(
+        DateFormat('EEEE, MMMM d').format(date),
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Theme.of(context).primaryColor,
+        ),
+      ),
+      initiallyExpanded: true,
+      children: [
+        Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            'Time',
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child:
-                              Text('Temp. °C', style: TextStyle(fontSize: 14)),
-                        ),
-                        Expanded(
-                          flex: 3,
-                          child: Text(
-                            'Prob. precip. %',
-                            style: TextStyle(fontSize: 14),
-                            textAlign: TextAlign.right,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 3,
-                          child: Text(
-                            'Wind(Gust) m/s',
-                            style: TextStyle(fontSize: 14),
-                            textAlign: TextAlign.right,
-                          ),
-                        ),
-                      ],
-                    ),
+                  HeaderElement(
+                    flexAmount: 2,
+                    content: 'Time',
+                    alignRight: false,
                   ),
-                  Divider(),
-                  ...forecastDay.entries.map((entry) {
-                    return ListTile(
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                              flex: 2,
-                              child: Text(
-                                  DateFormat('h:mm a').format(entry.time),
-                                  style: TextStyle(fontSize: 14))),
-                          Expanded(
-                              flex: 1,
-                              child: Image.asset(
-                                'assets/weather_icons/${entry.icon}.png',
-                                height: 52,
-                                width: 52,
-                              )),
-                          Expanded(
-                              flex: 1,
-                              child: Text('${entry.temperature}°',
-                                  style: TextStyle(fontSize: 14))),
-                          Expanded(
-                              flex: 3,
-                              child: Text(
-                                '${entry.pop}',
-                                style: TextStyle(fontSize: 14),
-                                textAlign: TextAlign.right,
-                              )),
-                          Expanded(
-                              flex: 2,
-                              child: Text(
-                                '${entry.windSpeed} (${entry.windGust})',
-                                style: TextStyle(fontSize: 14),
-                                textAlign: TextAlign.right,
-                              )),
-                          Expanded(
-                            flex: 1,
-                            child: Transform.rotate(
-                              angle: entry.windDeg *
-                                  (pi / 180), // Transform to radians
-                              child: Icon(Icons.arrow_upward),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
+                  HeaderElement(
+                    flexAmount: 2,
+                    content: 'Temp. °C',
+                    alignRight: false,
+                  ),
+                  HeaderElement(
+                    flexAmount: 3,
+                    content: 'Prob. precip. %',
+                    alignRight: true,
+                  ),
+                  HeaderElement(
+                    flexAmount: 3,
+                    content: 'Wind(Gust) m/s',
+                    alignRight: true,
+                  ),
                 ],
               ),
-            ],
-          );
-        },
+            ),
+            const Divider(),
+            ...entries.map((entry) {
+              return Entry(entry: entry);
+            }).toList(),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class HeaderElement extends StatelessWidget {
+  final int flexAmount;
+  final String content;
+  final bool alignRight;
+
+  const HeaderElement(
+      {Key? key,
+      required this.flexAmount,
+      required this.content,
+      required this.alignRight})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: flexAmount,
+      child: Text(
+        content,
+        style: const TextStyle(fontSize: 14),
+        textAlign: alignRight ? TextAlign.right : TextAlign.start,
+      ),
+    );
+  }
+}
+
+class Entry extends StatelessWidget {
+  final ForecastEntry entry;
+
+  const Entry({Key? key, required this.entry}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            flex: 2,
+            child: Text(
+              DateFormat('h:mm a').format(entry.time),
+              style: const TextStyle(fontSize: 14),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Image.asset(
+              'assets/weather_icons/${entry.icon}.png',
+              height: 52,
+              width: 52,
+            ),
+          ),
+          Expanded(
+              flex: 1,
+              child: Text('${entry.temperature}°',
+                  style: const TextStyle(fontSize: 14))),
+          Expanded(
+            flex: 3,
+            child: Text(
+              '${entry.pop}',
+              style: const TextStyle(fontSize: 14),
+              textAlign: TextAlign.right,
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              '${entry.windSpeed} (${entry.windGust})',
+              style: const TextStyle(fontSize: 14),
+              textAlign: TextAlign.right,
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Transform.rotate(
+              angle: entry.windDeg * (pi / 180), // Transform to radians
+              child: const Icon(Icons.arrow_upward),
+            ),
+          ),
+        ],
       ),
     );
   }

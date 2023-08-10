@@ -1,15 +1,14 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'package:my_app/widgets/current_weather_display.dart';
-import 'package:my_app/widgets/navigation_bar.dart';
-import 'package:my_app/widgets/error_dialog.dart';
+import '../widgets/current_weather_display.dart';
+import '../widgets/navigation_bar.dart';
+import '../widgets/error_dialog.dart';
 
-import 'package:my_app/providers/geolocation_coordinates.dart';
-import 'package:my_app/providers/fetch_weather_data.dart';
+import '../providers/geolocation_coordinates.dart';
+import '../providers/fetch_weather_data.dart';
 
 import '../models/weather_data.dart';
 
@@ -95,7 +94,7 @@ class _HomePageState extends State<HomePage> {
             : const Text('Current weather'),
       ),
       body: isLoading
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           : Column(

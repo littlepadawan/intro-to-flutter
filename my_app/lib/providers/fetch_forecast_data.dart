@@ -1,8 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:my_app/models/forecast_data.dart';
-
+import '../models/forecast_data.dart';
 import '../models/location_data.dart';
 
 Future<ForecastData> fetchForecastData(

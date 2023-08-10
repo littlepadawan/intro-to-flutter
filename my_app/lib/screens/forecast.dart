@@ -1,16 +1,15 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:intl/intl.dart';
 
-import 'package:my_app/providers/geolocation_coordinates.dart';
-import 'package:my_app/providers/fetch_forecast_data.dart';
-import 'package:my_app/widgets/error_dialog.dart';
+import '../providers/geolocation_coordinates.dart';
+import '../providers/fetch_forecast_data.dart';
+
+import '../widgets/error_dialog.dart';
+import '../widgets/navigation_bar.dart';
+import '../widgets/forecast_display.dart';
 
 import 'package:my_app/models/forecast_data.dart';
-import 'package:my_app/widgets/navigation_bar.dart';
-import 'package:my_app/widgets/forecast_display.dart';
 
 class ForecastPage extends StatefulWidget {
   const ForecastPage({super.key});
@@ -77,7 +76,7 @@ class _ForecastPageState extends State<ForecastPage> {
             : const Text('Forecast'),
       ),
       body: isLoading
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           : forecastData == null

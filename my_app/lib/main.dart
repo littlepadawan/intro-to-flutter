@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_app/routes/home.dart';
-import 'package:my_app/routes/forecast.dart';
-import 'package:my_app/routes/about.dart';
+
+import '../routes/home.dart';
+import '../routes/forecast.dart';
+import '../routes/about.dart';
 
 void main() {
   final goRouter = GoRouter(

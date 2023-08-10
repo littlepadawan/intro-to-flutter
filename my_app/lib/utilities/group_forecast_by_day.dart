@@ -1,5 +1,4 @@
 import 'package:my_app/models/forecast_data.dart';
-import 'package:my_app/utilities/capitalize.dart';
 
 List<ForecastDay> groupForecastByDay(Map<String, dynamic> json) {
   final List<dynamic> forecastList = json['list']; // Data from API
@@ -26,22 +25,15 @@ List<ForecastDay> groupForecastByDay(Map<String, dynamic> json) {
       currentDate = entryDate;
     }
 
-    final temperature = (forecastEntry['main']['temp']).round();
-    final pop = (forecastEntry['pop'] * 100).round();
-    final icon = forecastEntry['weather'][0]['icon'];
-    final windSpeed = (forecastEntry['wind']['speed']).round();
-    final windGust = (forecastEntry['wind']['gust']).round();
-    final windDeg = (forecastEntry['wind']['deg']);
-
     currentDayEntries.add(
       ForecastEntry(
         time: entryDate,
-        icon: icon,
-        temperature: temperature,
-        pop: pop,
-        windSpeed: windSpeed,
-        windGust: windGust,
-        windDeg: windDeg,
+        icon: forecastEntry['weather'][0]['icon'],
+        temperature: (forecastEntry['main']['temp']).round(),
+        pop: (forecastEntry['pop'] * 100).round(),
+        windSpeed: (forecastEntry['wind']['speed']).round(),
+        windGust: (forecastEntry['wind']['gust']).round(),
+        windDeg: forecastEntry['wind']['deg'],
       ),
     );
   }

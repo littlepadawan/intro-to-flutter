@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
-import 'package:my_app/utilities/capitalize.dart';
-import 'package:my_app/utilities/round_double.dart';
+
+import '../utilities/capitalize.dart';
+import '../utilities/round_double.dart';
 import 'location_data.dart';
 
 class WeatherData {
@@ -42,7 +43,7 @@ class WeatherData {
     return WeatherData(
       latitude: latitude,
       longitude: longitude,
-      city: json['name'], // TODO: error handling since func is depracated?
+      city: json['name'],
       country: locationData.country,
       date:
           '${DateFormat('E').format(today)}, ${DateFormat('MMMd').format(today)}, ${DateFormat('y').format(today)}',
@@ -59,11 +60,5 @@ class WeatherData {
       windSpeed: json['wind']['speed']?.round(),
       windGust: json['wind']['gust']?.round(),
     );
-  }
-
-  // TODO: remove, do not need this in the actual app
-  @override
-  String toString() {
-    return 'WeatherData{latitude: $latitude, longitude: $longitude, city: $city, country: $country, date: $date, description: $description, temperature: $temperature}';
   }
 }
