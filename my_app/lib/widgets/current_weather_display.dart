@@ -1,5 +1,7 @@
+// import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/models/weather_data.dart';
+import 'package:flutter/cupertino.dart';
 
 class CurrentWeatherDisplay extends StatefulWidget {
   final WeatherData? weatherData;
@@ -35,6 +37,10 @@ class _CurrentWeatherDisplayState extends State<CurrentWeatherDisplay> {
           Description(description: widget.weatherData?.description),
           const SizedBox(height: 30),
           Temperature(temperature: widget.weatherData?.temperature),
+          const SizedBox(height: 50),
+          SolarTransitions(
+              sunrise: widget.weatherData?.sunrise,
+              sunset: widget.weatherData?.sunset)
         ] else ...[
           const Text(
               'Error fetching weather data. Close the app and try again.'),
@@ -133,6 +139,57 @@ class Temperature extends StatelessWidget {
         Text(
           '$temperature°C',
           style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        ),
+      ],
+    );
+  }
+}
+
+class SolarTransitions extends StatelessWidget {
+  final String? sunrise;
+  final String? sunset;
+
+  const SolarTransitions(
+      {Key? key, required this.sunrise, required this.sunset})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Icon(
+          CupertinoIcons.sunrise,
+          size: 20,
+          color: Colors.grey.shade600,
+        ),
+        SizedBox(
+          width: 8,
+        ),
+        Text(
+          '$sunrise',
+          style: const TextStyle(
+            fontSize: 14,
+            color: Color.fromARGB(255, 109, 109, 109),
+          ),
+        ),
+        SizedBox(
+          width: 50,
+        ),
+        Icon(
+          CupertinoIcons.sunset,
+          size: 20,
+          color: Colors.grey.shade600,
+        ),
+        SizedBox(
+          width: 8,
+        ),
+        Text(
+          '$sunset',
+          style: const TextStyle(
+            fontSize: 14,
+            color: Color.fromARGB(255, 109, 109, 109),
+          ),
         ),
       ],
     );

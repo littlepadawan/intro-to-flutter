@@ -12,6 +12,8 @@ class WeatherData {
   String? description;
   String? icon;
   double? temperature;
+  String? sunrise;
+  String? sunset;
   String? lastUpdate;
 
   WeatherData(
@@ -23,24 +25,27 @@ class WeatherData {
       required this.description,
       required this.icon,
       required this.temperature,
+      required this.sunrise,
+      required this.sunset,
       required this.lastUpdate});
 
   factory WeatherData.fromJson(Map<String, dynamic> json, double latitude,
       double longitude, LocationData locationData) {
-    //TODO get time of data fetch
-
     DateTime today = DateTime.now();
     return WeatherData(
       latitude: latitude,
       longitude: longitude,
       city: json['name'], // TODO: error handling since func is depracated?
       country: locationData.country,
-      // weekday: getWeekdayAsString(today.weekday),
       date:
           '${DateFormat('E').format(today)}, ${DateFormat('MMMd').format(today)}, ${DateFormat('y').format(today)}',
       description: capitalize(json['weather'][0]['description']),
       icon: json['weather'][0]['icon'],
       temperature: roundToOneDecimal(json['main']['temp']),
+      sunrise: DateFormat.jm().format(
+          DateTime.fromMillisecondsSinceEpoch(json['sys']['sunrise'] * 1000)),
+      sunset: DateFormat.jm().format(
+          DateTime.fromMillisecondsSinceEpoch(json['sys']['sunset'] * 1000)),
       lastUpdate: DateFormat.jm()
           .format(DateTime.fromMillisecondsSinceEpoch(json['dt'] * 1000)),
     );
