@@ -30,11 +30,14 @@ List<ForecastDay> groupForecastByDay(Map<String, dynamic> json) {
     final weatherDescription = forecastEntry['weather'][0]['description'];
     final icon = forecastEntry['weather'][0]['icon'];
 
-    currentDayEntries.add(ForecastEntry(
+    currentDayEntries.add(
+      ForecastEntry(
         time: entryDate,
         temperature: temperature,
         weatherDescription: capitalize(weatherDescription),
-        icon: icon));
+        icon: icon,
+      ),
+    );
   }
 
   return forecastDays;

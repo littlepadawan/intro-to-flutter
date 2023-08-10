@@ -12,6 +12,7 @@ class WeatherData {
   String? description;
   String? icon;
   double? temperature;
+  int? feelsLike;
   String? sunrise;
   String? sunset;
   String? lastUpdate;
@@ -25,6 +26,7 @@ class WeatherData {
       required this.description,
       required this.icon,
       required this.temperature,
+      required this.feelsLike,
       required this.sunrise,
       required this.sunset,
       required this.lastUpdate});
@@ -42,6 +44,7 @@ class WeatherData {
       description: capitalize(json['weather'][0]['description']),
       icon: json['weather'][0]['icon'],
       temperature: roundToOneDecimal(json['main']['temp']),
+      feelsLike: json['main']['feels_like'].round(),
       sunrise: DateFormat.jm().format(
           DateTime.fromMillisecondsSinceEpoch(json['sys']['sunrise'] * 1000)),
       sunset: DateFormat.jm().format(

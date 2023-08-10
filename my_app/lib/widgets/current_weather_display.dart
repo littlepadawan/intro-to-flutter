@@ -36,7 +36,10 @@ class _CurrentWeatherDisplayState extends State<CurrentWeatherDisplay> {
           const SizedBox(height: 8),
           Description(description: widget.weatherData?.description),
           const SizedBox(height: 30),
-          Temperature(temperature: widget.weatherData?.temperature),
+          Temperature(
+            temperature: widget.weatherData?.temperature,
+            feelsLike: widget.weatherData?.feelsLike,
+          ),
           const SizedBox(height: 50),
           SolarTransitions(
               sunrise: widget.weatherData?.sunrise,
@@ -128,18 +131,40 @@ class Description extends StatelessWidget {
 
 class Temperature extends StatelessWidget {
   final double? temperature;
+  final int? feelsLike;
 
-  const Temperature({Key? key, required this.temperature}) : super(key: key);
+  const Temperature(
+      {Key? key, required this.temperature, required this.feelsLike})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
-          '$temperature°C',
-          style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              '$temperature°C',
+              style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+          ],
         ),
+        SizedBox(
+          height: 8,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Feels like $feelsLike°C',
+              style: const TextStyle(
+                color: Color.fromARGB(255, 109, 109, 109),
+              ),
+            ),
+          ],
+        )
       ],
     );
   }

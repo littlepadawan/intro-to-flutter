@@ -41,7 +41,10 @@ class ForecastDay {
   final DateTime date;
   final List<ForecastEntry> entries;
 
-  ForecastDay({required this.date, required this.entries});
+  ForecastDay({
+    required this.date,
+    required this.entries,
+  });
 }
 
 class ForecastEntry {
