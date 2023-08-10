@@ -92,40 +92,43 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Current weather'),
       ),
-      body: Column(
-        children: [
-          Align(
-            alignment: Alignment.topRight,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: RefreshSection(refreshCallback: _getLocationCoordinates),
-            ),
-          ),
-          const SizedBox(height: 100),
-          if (isLoading) ...[
-            const CircularProgressIndicator(),
-          ] else ...[
-            Expanded(
-              child: SingleChildScrollView(
-                child: CurrentWeatherDisplay(
-                  weatherData: currentWeather,
-                  refreshCallback: _getLocationCoordinates,
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: LastUpdatedSection(
-                  lastUpdate: currentWeather?.lastUpdate,
-                ),
-              ),
+      body: isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
             )
-          ],
-        ],
+          : Column(
+              children: [
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: RefreshSection(
+                        refreshCallback: _getLocationCoordinates),
+                  ),
+                ),
+                const SizedBox(height: 100),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: CurrentWeatherDisplay(
+                      weatherData: currentWeather,
+                      refreshCallback: _getLocationCoordinates,
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: LastUpdatedSection(
+                      lastUpdate: currentWeather?.lastUpdate,
+                    ),
+                  ),
+                )
+              ],
+            ),
+      bottomNavigationBar: const CustomNavigationBar(
+        startIndex: 0,
       ),
-      bottomNavigationBar: const CustomNavigationBar(),
     );
   }
 }

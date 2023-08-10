@@ -77,7 +77,9 @@ class _ForecastPageState extends State<ForecastPage> {
             : const Text('Forecast'),
       ),
       body: isLoading
-          ? CircularProgressIndicator() // Show loading indicator
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
           : forecastData == null
               ? const Center(
                   child: Text('No forecast data available'),
@@ -85,7 +87,9 @@ class _ForecastPageState extends State<ForecastPage> {
               : ForecastDisplay(
                   forecastDays: forecastData!.forecastDays!,
                 ),
-      bottomNavigationBar: const CustomNavigationBar(),
+      bottomNavigationBar: const CustomNavigationBar(
+        startIndex: 1,
+      ),
     );
   }
 }

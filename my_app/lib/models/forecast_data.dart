@@ -40,10 +40,8 @@ class ForecastData {
 class ForecastDay {
   final DateTime date;
   final List<ForecastEntry> entries;
-  bool isExpanded;
 
-  ForecastDay(
-      {required this.date, required this.entries, required this.isExpanded});
+  ForecastDay({required this.date, required this.entries});
 }
 
 class ForecastEntry {
@@ -54,8 +52,8 @@ class ForecastEntry {
 
   ForecastEntry({
     required this.time,
-    required double temperature,
+    required this.temperature,
     required this.weatherDescription,
     required this.icon,
-  }) : temperature = temperature.round();
+  });
 }

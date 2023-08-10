@@ -25,7 +25,9 @@ class AboutPage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const CustomNavigationBar(),
+      bottomNavigationBar: const CustomNavigationBar(
+        startIndex: 2,
+      ),
     );
   }
 }

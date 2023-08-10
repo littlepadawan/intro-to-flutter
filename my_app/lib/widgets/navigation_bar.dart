@@ -2,21 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class CustomNavigationBar extends StatefulWidget {
-  const CustomNavigationBar({Key? key}) : super(key: key);
+  final int startIndex;
+  const CustomNavigationBar({Key? key, required this.startIndex})
+      : super(key: key);
 
   @override
   State<CustomNavigationBar> createState() => _CustomNavigationBarState();
 }
 
 class _CustomNavigationBarState extends State<CustomNavigationBar> {
-  int _selectedIndex = 0; // To track which screen is active/clicked
+  late int _selectedIndex; // To track which screen is active/clicked
 
-  // const CustomBottomNavigationBar({super.key, required this.currentIndex, required this.onTap});
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.startIndex;
+  }
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      items: const [
+      type: BottomNavigationBarType.fixed,
+      currentIndex: _selectedIndex,
+      onTap: _navigateToScreen,
+      fixedColor: Theme.of(context).primaryColor,
+      items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.sunny),
           label: 'Current',
@@ -30,12 +40,10 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
           label: 'About',
         ),
       ],
-      currentIndex: _selectedIndex,
-      onTap: _changeIndex,
     );
   }
 
-  void _changeIndex(int index) {
+  void _navigateToScreen(int index) {
     switch (index) {
       case 0:
         {

@@ -17,17 +17,16 @@ List<ForecastDay> groupForecastByDay(Map<String, dynamic> json) {
     if (entryDate.day != currentDate.day) {
       // If true, it means we're entering a new day
       ForecastDay forecastDay = ForecastDay(
-          date: currentDate,
-          entries: currentDayEntries,
-          isExpanded:
-              true); // Add all entries for currentDate to new forecastDay
+        date: currentDate,
+        entries: currentDayEntries,
+      ); // Add all entries for currentDate to new forecastDay
       forecastDays.add(forecastDay);
 
       currentDayEntries = [];
       currentDate = entryDate;
     }
 
-    final temperature = forecastEntry['main']['temp'];
+    final temperature = (forecastEntry['main']['temp']).round();
     final weatherDescription = forecastEntry['weather'][0]['description'];
     final icon = forecastEntry['weather'][0]['icon'];
 
