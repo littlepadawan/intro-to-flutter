@@ -49,14 +49,20 @@ class ForecastDay {
 
 class ForecastEntry {
   final DateTime time;
-  final int temperature;
-  final String weatherDescription;
   final String? icon;
+  final int temperature;
+  final int pop;
+  final int windSpeed;
+  final int windGust;
+  final int windDeg;
 
   ForecastEntry({
     required this.time,
-    required this.temperature,
-    required this.weatherDescription,
     required this.icon,
+    required this.temperature,
+    required this.pop,
+    required this.windSpeed,
+    required this.windGust,
+    required this.windDeg,
   });
 }

@@ -73,7 +73,7 @@ class _ForecastPageState extends State<ForecastPage> {
     return Scaffold(
       appBar: AppBar(
         title: forecastData != null
-            ? Text('Forecast ${forecastData?.city}, ${forecastData?.country}')
+            ? Text('${forecastData?.city}, ${forecastData?.country}')
             : const Text('Forecast'),
       ),
       body: isLoading

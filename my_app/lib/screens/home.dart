@@ -90,7 +90,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Current weather'),
+        title: currentWeather != null
+            ? Text('${currentWeather?.city}, ${currentWeather?.country}')
+            : const Text('Current weather'),
       ),
       body: isLoading
           ? Center(

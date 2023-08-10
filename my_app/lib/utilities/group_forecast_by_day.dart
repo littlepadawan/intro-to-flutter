@@ -27,15 +27,21 @@ List<ForecastDay> groupForecastByDay(Map<String, dynamic> json) {
     }
 
     final temperature = (forecastEntry['main']['temp']).round();
-    final weatherDescription = forecastEntry['weather'][0]['description'];
+    final pop = (forecastEntry['pop'] * 100).round();
     final icon = forecastEntry['weather'][0]['icon'];
+    final windSpeed = (forecastEntry['wind']['speed']).round();
+    final windGust = (forecastEntry['wind']['gust']).round();
+    final windDeg = (forecastEntry['wind']['deg']).round();
 
     currentDayEntries.add(
       ForecastEntry(
         time: entryDate,
-        temperature: temperature,
-        weatherDescription: capitalize(weatherDescription),
         icon: icon,
+        temperature: temperature,
+        pop: pop,
+        windSpeed: windSpeed,
+        windGust: windGust,
+        windDeg: windDeg,
       ),
     );
   }
