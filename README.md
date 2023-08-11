@@ -32,7 +32,6 @@ This application was developed for the course Introduction to App Development wi
   </div>
 </div>
 
-
 ## Compability
 
 The app is designed to work smoothly across a range of devices. It has been successfully tested on **\_** in Android Stuidos emulator during development. While this device has been the primary focus when developing the app, it should perform well on other devices with similar specifications and operating system versions.
@@ -67,8 +66,8 @@ Other than Flutter and Android Studio, the following dependencies are required:
 
 ## Known Issues
 
-- Occasionally, there might be instances of an error related to location retrieval when switching between screens. Efforts have been made to pinpoint its cause, but it remains inknown due to its inconsistant nature. It appears to be related to initializing a request while another is already in progress.
-- From time to time, there could be occurrences of an error associated with parsing information from JSON. This inconsistency seems to manifest particularly when the emulator has been active for an extended duration and during night time. This suggests that the issue might not be related to the code itself. Interestingly, after restarting both the emulator and the computer following a substantial downtime, the code often runs error-free, even though no modifications have been made. 
-- The implementation of the navigation bar needs refinement. Currently, it is generated anew with the construction of each screen.
-- The app currenlty relies on a deprecated geolocation service to obtain city names. While an attempt was made to utilize reverse geocoding for this purpose, issues arose with obtaining accurate data, which led to the decision to fall back on the deprecated functionality.
+- From time to time, there could be occurrences of an error associated with parsing information from JSON. This inconsistency seems to manifest particularly when the emulator has been active for an extended duration and mostly during night time. This suggests that the issue might not be related to the code itself. Interestingly, after restarting both the emulator and the computer following a substantial downtime, the code always runs error-free, even though no modifications have been made.
+- Occasionally, there might be instances of an error related to location retrieval when switching between screens. Efforts have been made to pinpoint its cause, but it remains unknown due to its inconsistant nature. Though, it appears to be related to initializing a request while another is already in progress.
+- The implementation of the navigation bar needs refinement. Currently, it is generated anew with the construction of each screen. It should be generated only once, when the app is started.
+- The app currently relies on a deprecated geolocation service to obtain city names. While an attempt was made to utilize reverse geocoding for this purpose, issues arose with obtaining accurate data, which led to the decision to fall back on the deprecated functionality.
 - The main screen currently does not display information about wind direction.
